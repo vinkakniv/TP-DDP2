@@ -1,3 +1,9 @@
+// NAMA: VINKA ALREZKY AS
+// NPM: 2206820200
+// KELAS: DDP2-D
+// TP-01
+
+
 package assignments.assignment1;
 
 import java.util.*;
@@ -7,15 +13,13 @@ import java.time.format.DateTimeFormatter;
 public class NotaGenerator {
     private static final Scanner inp = new Scanner(System.in);
 
-    /**
-     * Method main, program utama kalian berjalan disini.
-     */
+    // Method main, the main program runs here.
     public static void main(String[] args) {
-        // TODO: Implement interface menu utama
-        //inp.close();
         String choice;
         do {
-            printMenu();
+            printMenu();  // display menu
+
+            // Get user input for menu choice
             System.out.print("Pilihan : "); 
             choice = inp.nextLine();
             switch (choice) {
@@ -24,6 +28,8 @@ public class NotaGenerator {
                     break;
                 case "1":
                     System.out.println("================================");
+
+                    // Get user input for name and mobile number
                     System.out.println("Masukkan nama Anda: ");
                     String name1 = inp.nextLine();
                     String mobileNumber1 = getMobileNumber(inp);
@@ -48,30 +54,37 @@ public class NotaGenerator {
                     System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
                     break;
                 }
-        }  while (!choice.equals("0")); 
+        }  while (!choice.equals("0"));  // Program stops executing
         inp.close();
     }
 
+
+    /**
+     * Prompts the user to enter the laundry package and checks if the input is valid.
+     * @return the chosen laundry package.
+     */
     public static String getLaundryPackage(Scanner inp){
-        String thePackage;
+        String chosenPackage;
         while (true) {
             System.out.println("Masukkan paket laundry: ");
-            thePackage = inp.nextLine();
-            String thePackageLower = thePackage.toLowerCase();
-            if (thePackage.equals("?")) {
+            chosenPackage = inp.nextLine();
+            String chosenPackageLower = chosenPackage.toLowerCase();
+            if (chosenPackage.equals("?")) {
                 showPaket();
                 continue;
-            }
-            else if (!(thePackageLower.equals("reguler") || thePackageLower.equals("fast") || thePackageLower.equals("express"))) {
-                System.out.println("Paket " + thePackage + " tidak diketahui");
+            } else if (!(chosenPackageLower.equals("reguler") || chosenPackageLower.equals("fast") || chosenPackageLower.equals("express"))) {
+                System.out.println("Paket " + chosenPackage + " tidak diketahui");
                 System.out.println("[ketik ? untuk mencari tahu jenis paket]");
                 continue;
-            }
-            break;
-        }
-        return thePackage;
+            } break;
+        } return chosenPackage;
     }
 
+
+    /**
+     * Prompts the user to enter the laundry weight and checks if the input is valid.
+     * @return the laundry weight in kg.
+     */
     public static int getLaundryWeight(Scanner inp) {
         String weightString;
         int weight;
@@ -84,10 +97,15 @@ public class NotaGenerator {
             } else if ((inputNumValidation(weightString)) && (weight < 2)) {
                 System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                 weight = 2;
-            } else if ((inputNumValidation(weightString)) && (weight >= 2)) 
-                break;
+            } else if ((inputNumValidation(weightString)) && (weight >= 2)) break;
         } return weight;
     }
+
+
+    /**
+     * Prompts the user to enter the mobile number and checks if the input is valid.
+     * @return the string of mobile number.
+     */
     public static String getMobileNumber(Scanner inp) {
         String mobileNumber; 
         while (true) {
@@ -100,6 +118,8 @@ public class NotaGenerator {
         } return mobileNumber;
     }
 
+
+    // Checks if a given input is a positive number.
     public static boolean inputNumValidation(String input) {
         try {
             double value = Double.parseDouble(input);
@@ -109,20 +129,18 @@ public class NotaGenerator {
         }
     }
 
-    /**
-     * Method untuk menampilkan menu di NotaGenerator.
-     */
+    
+    // Method to display menu in NotaGenerator.
     private static void printMenu() {
         System.out.println("Selamat datang di NotaGenerator!");
         System.out.println("==============Menu==============");
         System.out.println("[1] Generate ID");
         System.out.println("[2] Generate Nota");
         System.out.println("[0] Exit");
-    
     }
-    /**
-     * Method untuk menampilkan paket.
-     */
+
+    
+    // Method to display packages.
     private static void showPaket() {
         System.out.println("+-------------Paket-------------+");
         System.out.println("| Express | 1 Hari | 12000 / Kg |");
@@ -131,73 +149,76 @@ public class NotaGenerator {
         System.out.println("+-------------------------------+");
     }
 
-    /**
-     * Method untuk membuat ID dari nama dan nomor handphone.
-     * Parameter dan return type dari method ini tidak boleh diganti agar tidak mengganggu testing
+   /**
+     * Method for creating an ID from name and phone number.
      *
-     * @return String ID anggota dengan format [NAMADEPAN]-[nomorHP]-[2digitChecksum]
+     * @return String ID in the format of [FIRSTNAME]-[phoneNumber]-[2digitChecksum].
      */
-    public static String generateId(String nama, String nomorHP){
-        // TODO: Implement generate ID sesuai soal.
-        String firstName = nama.split("\\s+")[0].toUpperCase();
-        String checksum = firstName + "-" + nomorHP;
+    public static String generateId(String personName, String phoneNumber) {
+        // Get the first name from the input name string and convert it to uppercase.
+        String firstName = personName.split("\\s+")[0].toUpperCase();
+
+        // Concatenate the first name and phone number to form the initial ID string.
+        String idString = firstName + "-" + phoneNumber;
+
+        // Define the alphabet for calculating the checksum and initialize the total checksum to zero.
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int totalValue = 0;
-        for (int i = 0; i < checksum.length(); i++) {
-            char c = checksum.charAt(i);
+        int totalChecksum = 0;
+
+        // Loop through each character in the ID string and calculate the checksum.
+        for (int i = 0; i < idString.length(); i++) {
+            char c = idString.charAt(i);
+
+            // If the character is a digit, add its value to the total checksum.
             if (Character.isDigit(c)) {
                 int digitValue = Character.getNumericValue(c);
-                totalValue += digitValue;
+                totalChecksum += digitValue;
+
+            // If the character is a letter, add its value (based on its position in the alphabet) to the total checksum.
             } else if (Character.isLetter(c)) {
                 int charValue = alphabet.indexOf(Character.toUpperCase(c)) + 1;
-                totalValue += charValue;
+                totalChecksum += charValue;
+
+            // If the character is not a digit or a letter, add 7 to the total checksum.
             } else {
-                totalValue += 7;
+                totalChecksum += 7;
             }
         }
-        return  checksum + "-" + String.format("%02d", totalValue);
-    }
-    
 
-        
-    
+        // Concatenate the total checksum (formatted to 2 digits) to the ID string and return the final ID.
+        return idString + "-" + String.format("%02d", totalChecksum);
+    }
+
 
     /**
-     *
-     * Method untuk membuat Nota.
-     * Parameter dan return type dari method ini tidak boleh diganti agar tidak mengganggu testing.
-     *
-     * @return string nota dengan format di bawah:
+     * Method for creating memo.
+     * @return string memo with the following format:
      *         <p>ID    : [id]
-     *         <p>Paket : [paket]
+     *         <p>Paket : [thePackage]
      *         <p>Harga :
-     *         <p>[berat] kg x [hargaPaketPerKg] = [totalHarga]
-     *         <p>Tanggal Terima  : [tanggalTerima]
-     *         <p>Tanggal Selesai : [tanggalTerima + LamaHariPaket]
+     *         <p>[theWeight] kg x [price] = [totalPrice]
+     *         <p>Tanggal Terima  : [receiptDate]
+     *         <p>Tanggal Selesai : [receiptDate + duration]
      */
-
-    public static String generateNota(String id, String paket, int berat, String tanggalTerima){
-        // TODO: Implement generate nota sesuai soal.
-        int totalHarga;
-        LocalDate tanggalTerimaParsed = LocalDate.parse(tanggalTerima, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate tanggalSelesai;
+    public static String generateNota(String id, String thePackage, int theWeight, String receiptDate){
+        LocalDate receiptDateParsed = LocalDate.parse(receiptDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         int price = 0;
         int duration = 0;
-        if (paket.toLowerCase().equals("reguler")) {
+        if (thePackage.toLowerCase().equals("reguler")) {
             price = 7000;
             duration = 3;
-        } else if (paket.toLowerCase().equals("fast")) {
+        } else if (thePackage.toLowerCase().equals("fast")) {
             price = 10000;
             duration = 2;
-        } else if (paket.toLowerCase().equals("express")) {
+        } else if (thePackage.toLowerCase().equals("express")) {
             price = 12000;
             duration = 1;
         }
-        totalHarga = price * berat;
-        tanggalSelesai = tanggalTerimaParsed.plusDays(duration);
-        String formattedTanggalSelesai = tanggalSelesai.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        String nota = String.format("ID    : %s\nPaket : %s\nHarga :\n%d kg x %d = %d\nTanggal Terima  : %s\nTanggal Selesai : %s", 
-        id, paket, berat, price, totalHarga, tanggalTerima, formattedTanggalSelesai);
-        return nota;
+        int totalPrice = theWeight * price;
+        LocalDate dateOfCompletion = receiptDateParsed.plusDays(duration);
+        String dateOfCompletionFormatted = dateOfCompletion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String memo = String.format("ID    : %s\nPaket : %s\nHarga :\n%d kg x %d = %d\nTanggal Terima  : %s\nTanggal Selesai : %s", 
+        id, thePackage, theWeight, price, totalPrice, receiptDate, dateOfCompletionFormatted);
+        return memo;
     }
 }
