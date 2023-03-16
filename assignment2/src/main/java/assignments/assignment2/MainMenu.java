@@ -216,5 +216,7 @@ public class MainMenu {
                         
 References that i used for TP2:
     Y. D. Liang: Introduction to Java Programming and Data Structures, Comprehensive Version, 12th Edition. Pearson.
-
+    https://www.geeksforgeeks.org/classes-objects-java/amp/
+    https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html
+    https://www.w3schools.com/java/java_encapsulation.asp
 */ 
