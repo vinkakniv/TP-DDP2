@@ -76,17 +76,13 @@ public class NotaGenerator {
         System.out.println("[0] Exit");
     }
 
-
-    // Checks if a given input is a positive number.
-    public static boolean inputNumValidation(String input) {
-        try {
-            double value = Double.parseDouble(input);
-            return value > 0; // input is valid.
-        } catch (NumberFormatException e) {
-            return false; // input is not valid
+    public static boolean isNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c))
+                return false;
         }
+        return true;
     }
-
 
     /**
      * Prompts the user to enter the mobile number and checks if the input is valid.
@@ -97,8 +93,8 @@ public class NotaGenerator {
         while (true) {
             System.out.println("Masukkan nomor handphone Anda: "); // Print prompt massage.
             mobileNumber = inp.nextLine(); 
-            if (!inputNumValidation(mobileNumber)) {
-                System.out.println("Nomor hp hanya menerima digit");
+            if (!isNumeric(mobileNumber)) {
+                System.out.println("Field nomor hp hanya menerima digit.");
                 continue; // input is not valid, continue loop.
             } break;
         } return mobileNumber;
@@ -136,16 +132,21 @@ public class NotaGenerator {
         int weight;
         while (true) {
             weightString = inp.nextLine();
-            weight = Integer.parseInt(weightString);
-            if (!inputNumValidation(weightString)) {
+            if (!isNumeric(weightString) || Integer.parseInt(weightString) < 1) {
                 System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                 continue; // Input is not valid, continue loop .
-            } else if ((inputNumValidation(weightString)) && (weight < 2)) {
-                System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
-                weight = 2; // If the laundry weight less than 2 kg, it will rounded up to 2 kg.
-            } else if ((inputNumValidation(weightString)) && (weight >= 2)) break; // input valid.
+            }
+            else if(isNumeric(weightString) &&  Integer.parseInt(weightString) > 0) {
+                weight = Integer.parseInt(weightString);
+                if (weight < 2) {
+                    System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
+                    weight = 2; // If the laundry weight less than 2 kg, it will rounded up to 2 kg.
+                    break;
+                } else if (weight >= 2) break; // input valid.
+            }
         } return weight;
     }
+
 
 
     // Method to display packages.
@@ -186,12 +187,26 @@ public class NotaGenerator {
             } else {
                 totalChecksum += 7; 
             }
-        }
+        } String totalSum = String.format("%02d", totalChecksum);
         // Concatenate the total checksum (formatted to 2 digits) to the ID string and return the final ID.
-        return idString + "-" + String.format("%02d", totalChecksum);
+        return idString + "-" + totalSum.substring(totalSum.length() - 2);
     }
 
+    public static int getHargaPaket(String paket) {
+        paket = paket.toLowerCase();
+        if (paket.equals("express")) return 12000;
+        if (paket.equals("fast")) return 10000;
+        if (paket.equals("reguler")) return 7000;
+        return -1;
+    }
 
+    public static int getHariPaket(String paket) {
+        paket = paket.toLowerCase();
+        if (paket.equals("express")) return 1;
+        if (paket.equals("fast")) return 2;
+        if (paket.equals("reguler")) return 3;
+        return -1;
+    }
     /**
      * Method for creating memo.
      * @return string memo with the following format:
@@ -206,21 +221,8 @@ public class NotaGenerator {
         // Convert receipt date to LocalDate and use format "dd/MM/yyyy"
         LocalDate receiptDateParsed = LocalDate.parse(receiptDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         // Declare price and duration as integer
-        int price = 0;
-        int duration = 0;
-        if (thePackage.toLowerCase().equals("reguler")) {
-            // If the chosen package is reguler, set price = 7000 and duration = 3 days
-            price = 7000;
-            duration = 3;
-        } else if (thePackage.toLowerCase().equals("fast")) {
-            // If the chosen package is fast, set price = 10000 and duration = 2 days
-            price = 10000;
-            duration = 2;
-        } else if (thePackage.toLowerCase().equals("express")) {
-            // If the chosen package is express, set price = 12000 and duration = 1 day
-            price = 12000;
-            duration = 1;
-        }
+        int price = getHargaPaket(thePackage);
+        int duration = getHariPaket(thePackage);
         // Calculate total price 
         int totalPrice = theWeight * price;
         // Get the date of completion using Localdate plus days
