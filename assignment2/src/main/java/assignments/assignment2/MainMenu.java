@@ -40,6 +40,7 @@ public class MainMenu {
         System.out.println("Terima kasih telah menggunakan NotaGenerator!");
     }
 
+    // Method to handle generate user
     private static void handleGenerateUser() {
         // Generate user
         // Prompt user for name 
@@ -73,11 +74,11 @@ public class MainMenu {
         System.out.println("Masukan ID member: ");
         String inputId = input.nextLine();
         // Check if member already exists in daftarMember
-        boolean tidakDitemukan = false; 
+        boolean tidakAda = false; 
         for (Member m : daftarMember) {
             if (inputId.equals(m.getId())) {
                 // Member exist in daftarMember
-                tidakDitemukan = true; 
+                tidakAda = true; 
                 // Validate and get user's selected package & laundry weight
                 String paketCucian = getLaundryPackage(input); 
                 System.out.println("Masukkan berat cucian Anda [Kg]: ");
@@ -97,7 +98,7 @@ public class MainMenu {
             }
         }
         // If member not available, print error message
-        if (!tidakDitemukan) {
+        if (!tidakAda) {
                 System.out.println("Member dengan ID " + inputId + " tidak ditemukan!");
         } 
     }
@@ -107,9 +108,9 @@ public class MainMenu {
         int randomNumber;
         String uniqueIdNote;
         do {
-            randomNumber = random.nextInt(daftarNota.size() + 3);
+            randomNumber = random.nextInt(daftarNota.size() + 1);  // Give random number
             uniqueIdNote = String.valueOf(randomNumber);
-        } while (daftarNota.containsKey(uniqueIdNote));
+        } while (daftarNota.containsKey(uniqueIdNote)); 
         return uniqueIdNote;
     }
 
