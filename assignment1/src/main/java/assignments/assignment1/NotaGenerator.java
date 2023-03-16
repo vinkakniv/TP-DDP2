@@ -207,6 +207,7 @@ public class NotaGenerator {
         if (paket.equals("reguler")) return 3;
         return -1;
     }
+
     /**
      * Method for creating memo.
      * @return string memo with the following format:
