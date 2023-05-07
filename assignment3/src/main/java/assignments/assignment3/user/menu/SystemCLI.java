@@ -1,7 +1,6 @@
 package assignments.assignment3.user.menu;
 
 import assignments.assignment3.user.Member;
-
 import java.util.Scanner;
 
 public abstract class SystemCLI {
@@ -10,31 +9,29 @@ public abstract class SystemCLI {
     protected Scanner in;
 
     /**
-     * Otentikasi pengguna dengan ID dan password yang diberikan dan memulai sesi pengguna.
-     * Akan berhenti jika logout atau ID / Password salah.
+     * Authenticate the user with the given ID and password and start the user session.
+     * Will stop if logout or ID / Password is incorrect.
      *
-     * @param in -> Scanner object untuk membaca input.
-     * @param inputId -> ID user yang akan diautentikasi.
-     * @param inputPassword -> password user yang akan diautentikasi.
+     * @param in -> Scanner object to read input.
+     * @param inputId -> User ID to be authenticated.
+     * @param inputPassword -> User password to be authenticated.
      */
     public void login(Scanner in, String inputId, String inputPassword){
         Member authMember = authUser(inputId, inputPassword);
-
         if (authMember != null) {
             this.in = in;
             System.out.println("Login successful!\n");
             run(in, authMember);
             return;
         }
-
         System.out.println("Invalid ID or password.\n");
     };
 
     /**
-     * Memulai sesi pengguna dan menangani input.
+     * Starts a user session and handles input.
      *
-     * @param in -> Scanner object untuk membaca input.
-     * @param member -> Member object yang menggunakan sistem.
+     * @param in -> Scanner object to read input.
+     * @param member -> Member objects that use the system.
      */
     public void run(Scanner in, Member member){
         loginMember = member;
@@ -50,11 +47,11 @@ public abstract class SystemCLI {
     }
 
     /**
-     * Mengecek semua user dengan ID dan password yang diberikan.
+     * Checks all users with the given ID and password.
      *
-     * @param id -> ID pengguna yang akan diautentikasi.
-     * @param pass -> password pengguna untuk mengautentikasi.
-     * @return  Member object yang diautentikasi, null jika autentikasi gagal.
+     * @param id -> User ID to be authenticated.
+     * @param pass -> User password to be authenticated.
+     * @return  Authenticated member object, null if authentication failed.
      */
     public Member authUser(String id, String pass) {
         for (Member user : memberList) {
@@ -70,10 +67,10 @@ public abstract class SystemCLI {
     };
 
     /**
-     * Memeriksa apakah ada Member dengan ID yang diberikan.
+     * Checks if there is a Member with the given ID.
      *
-     * @param id -> ID yang akan diperiksa.
-     * @return true jika ada member dengan ID yang diberikan, false jika tidak.
+     * @param id -> ID to check.
+     * @return true if there is a member with the given ID, false otherwise.
      */
     public boolean isMemberExist(String id){
         for (Member member:
@@ -86,7 +83,7 @@ public abstract class SystemCLI {
     }
 
     /**
-     * Displays main menu untuk user yang menggunakan sistem.
+     * Displays the main menu for users using the system.
      */
     protected void displayMenu(){
         System.out.printf("Login as : %s\nSelamat datang %s!\n\n", loginMember.getId(), loginMember.getNama());
@@ -95,15 +92,15 @@ public abstract class SystemCLI {
     }
 
     /**
-     * Memproses pilihan dari pengguna yang menggunakan sistem sesuai dengan rolesnya.
+     * Process choices from users who use the system according to their roles.
      *
-     * @param choice -> pilihan pengguna.
-     * @return true jika user log.
+     * @param choice -> user's choice.
+     * @return true if user log.
      */
     protected abstract boolean processChoice(int choice);
 
     /**
-     * Displays specific menu sesuai class yang menginheritnya.
+     * Displays specific menu according to the class that inherited it.
      */
     protected abstract void displaySpecificMenu();
 }

@@ -2,32 +2,32 @@ package assignments.assignment3.nota.service;
 
 public interface LaundryService {
     /**
-     * Akan mengembalikan String yang menandakan bahwa Nota tersebut sedang dikerjakan.
-     * Jika pernah dipanggil minimal sekali akan membuat method isDone mengembalikan true.
+     * Returns a String indicating that the service is being worked on.
+     * If called at least once, the isDone method will return true.
      *
-     * @return String yang menandakan bahwa sedang dikerjakan.
+     * @return A String indicating that the service is being worked on.
      */
     String doWork();
 
     /**
-     * Akan bernilai true ketika method doWork() pernah dipanggil minimal sekali, selain itu akan bernilai false.
+     * Returns true if the doWork() method has been called at least once, false otherwise.
      *
-     * @return boolean yang menandakan apakah service sudah selesai atau belum.
+     * @return A boolean indicating whether the service has been completed or not.
      */
     boolean isDone();
 
     /**
-     * Akan mengkalkulasi harga berdasarkan berat dari argumen yang masuk.
+     * Calculates the price of the laundry based on the weight passed as an argument.
      *
-     * @param berat -> berat dari cucian.
-     * @return hasil kalkulasi harga dan berat dalam. Dalam long untuk antisipasi overflow.
+     * @param berat -> the weight of the laundry.
+     * @return The calculated price based on the weight in long to prevent overflow.
      */
     long getHarga(int berat);
 
     /**
-     * Akan mengembalikan nama dari service.
+     *  Returns the name of the service
      *
-     * @return nama service.
+     * @return service name.
      */
     String getServiceName();
 }

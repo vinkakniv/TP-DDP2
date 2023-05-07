@@ -5,7 +5,6 @@ import assignments.assignment3.user.Member;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
 import assignments.assignment3.user.menu.SystemCLI;
-
 import java.util.Scanner;
 
 import static assignments.assignment3.nota.NotaManager.cal;
@@ -18,7 +17,7 @@ public class MainMenu {
     /**s
      * Entry point for the CuciCuci System application.
      *
-     * @param args command line arguments, bisa kalian ignore.
+     * @param args command line arguments.
      */
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu(new Scanner(System.in), new LoginManager(new EmployeeSystem(), new MemberSystem()));
@@ -31,7 +30,7 @@ public class MainMenu {
     }
 
     /**
-     * Menjalankan main menu.
+     * Executes the main menu.
      */
     public void run() {
         boolean exit = false;
@@ -52,7 +51,7 @@ public class MainMenu {
     }
 
     /**
-     * Skips ke hari selanjutnya dan mengupdate sistem.
+     * Skips to the next day and updates the system.
      */
     private void toNextDay() {
         System.out.println("Kamu tidur hari ini... zzz...");
@@ -61,7 +60,7 @@ public class MainMenu {
     }
 
     /**
-     * Mendaftarkan user pada sistem.
+     * Register user on the system.
      */
     void register() {
         System.out.println("Masukan nama Anda: ");
@@ -80,7 +79,7 @@ public class MainMenu {
     }
 
     /**
-     * Meminta user untuk login dan memulai SystemCLI yang sesuai.
+     * Prompt the user to login and start the appropriate SystemCLI.
      */
     private void login() {
         System.out.print("Masukan ID Anda: ");
@@ -96,7 +95,7 @@ public class MainMenu {
     }
 
     /**
-     * Menampilkan menu
+     * Display menu
      */
     private void displayMenu() {
         System.out.println("Selamat datang di CuciCuci System!");
@@ -108,3 +107,12 @@ public class MainMenu {
         System.out.print("Apa yang ingin Anda lakukan hari ini? ");
     }
 }
+
+/* Special thanks to:   - Lidwina Eurora Firsta Nobella (2206083615) as a collaborator.
+                        
+References that i used for TP3:
+    Y. D. Liang: Introduction to Java Programming and Data Structures, Comprehensive Version, 12th Edition. Pearson.
+    https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html
+    https://www.geeksforgeeks.org/system-arraycopy-in-java/
+    https://docs.oracle.com/javase/tutorial/java/IandI/usinginterface.html
+*/ 

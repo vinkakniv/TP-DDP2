@@ -9,7 +9,7 @@ import static assignments.assignment3.nota.NotaManager.notaList;
 public class EmployeeSystem extends SystemCLI {
 
     /**
-     * Membuat object baru EmployeeSystem dan mendaftarkan Employee pada CuciCuci
+     * Constructs a new EmployeeSystem object and registers Employees in CuciCuci.
      */
     public EmployeeSystem() {
         memberList = new Member[]{
@@ -21,15 +21,16 @@ public class EmployeeSystem extends SystemCLI {
     }
 
     /**
-     * Memproses pilihan dari employee yang masuk ke sistem ini sesuai dengan menu specific.
+     *  Process the employee's choice in the system according to the specific menu.
      *
-     * @param choice -> pilihan pengguna.
-     * @return true jika user log.
+     * @param choice -> the user's choice.
+     * @return true if user logout.
      */
     @Override
     protected boolean processChoice(int choice) {
         switch (choice) {
             case 1:
+                // Loop through each nota in the notaList for employees doing the laundry
                 System.out.println("Stand back! " + loginMember.getNama() + " beginning to nyuci!");
                 for (Nota nota : notaList) {
                     System.out.println(nota.kerjakan());
@@ -37,6 +38,7 @@ public class EmployeeSystem extends SystemCLI {
                 System.out.println(" ");
                 break;
             case 2:
+                // Loop through each nota in the notaList and display its status
                 for (Nota nota : notaList) {
                     System.out.println(nota.getNotaStatus());
                 }
@@ -49,7 +51,7 @@ public class EmployeeSystem extends SystemCLI {
     }
 
     /**
-     * Displays specific menu untuk Employee.
+     * Displays specific menu for Employee.
      */
     @Override
     protected void displaySpecificMenu() {
