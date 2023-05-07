@@ -28,9 +28,24 @@ public class EmployeeSystem extends SystemCLI {
      */
     @Override
     protected boolean processChoice(int choice) {
-        boolean logout = false;
-        // TODO:
-        return logout;
+        switch (choice) {
+            case 1:
+                System.out.println("Stand back! " + loginMember.getNama() + " beginning to nyuci!");
+                for (Nota nota : notaList) {
+                    System.out.println(nota.kerjakan());
+                }
+                System.out.println(" ");
+                break;
+            case 2:
+                for (Nota nota : notaList) {
+                    System.out.println(nota.getNotaStatus());
+                }
+                System.out.println(" ");
+                break;
+            case 3:
+                return true;
+        }
+        return false;
     }
 
     /**

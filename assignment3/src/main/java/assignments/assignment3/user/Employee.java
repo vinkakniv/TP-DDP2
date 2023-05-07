@@ -2,8 +2,10 @@ package assignments.assignment3.user;
 
 public class Employee extends Member {
     public static int employeeCount;
+    
     public Employee(String nama, String password) {
         super(nama, generateId(nama), password);
+        employeeCount ++;
     }
 
     /**
@@ -14,7 +16,7 @@ public class Employee extends Member {
      * @param nama -> Nama lengkap dari employee
      */
     private static String generateId(String nama) {
-        // TODO
-        return "";
+        String id = (nama.split(" ")[0] + "-" + employeeCount).toUpperCase();
+        return id;
     }
 }

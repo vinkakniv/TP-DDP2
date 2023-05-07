@@ -1,7 +1,7 @@
 package assignments.assignment1;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-
 
 public class NotaGeneratorTest {
     @Test
@@ -9,18 +9,11 @@ public class NotaGeneratorTest {
         String solution = "ID    : BOCI-08203712389-79\n" +
                 "Paket : reguler\n" +
                 "Harga :\n" +
-                "20 kg x 7000 = 140000\n" +
-                "Tanggal Terima  : 01/02/2023\n" +
-                "Tanggal Selesai : 04/02/2023";
-        assertEquals(
-            solution,
-            NotaGenerator.generateNota(
-                "BOCI-08203712389-79",
-                "reguler",
-                20,
-                "01/02/2023"
-            )
-        );
+                "20 kg x 10000 = 200000\n" +
+                "tanggal terima  : 01/02/2023\n" +
+                "tanggal selesai : 04/02/2023";
+        assertEquals(solution, NotaGenerator.generateNota("BOCI-08203712389-79",
+                "reguler", 20, "01/02/2023", false));
     }
 
     @Test
