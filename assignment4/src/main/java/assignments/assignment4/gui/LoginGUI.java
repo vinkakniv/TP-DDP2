@@ -20,10 +20,10 @@ public class LoginGUI extends JPanel {
     private LoginManager loginManager;
 
     public LoginGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Setup layout.
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel.
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -32,13 +32,45 @@ public class LoginGUI extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    // Method untuk menginisialisasi LOGIN GUI.
     private void initGUI() {
-        // TODO
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.weightx = 20;
+        gbc.weighty = 2;
+        gbc.insets = new Insets(15, 0, 15, 0);
+
+        idLabel = new JLabel("Masukkan ID Anda:");
+        passwordLabel = new JLabel("Masukkan password Anda:");
+
+        idTextField  = new JTextField(10);
+        passwordField = new JPasswordField(10);
+
+        loginButton = new JButton("Login");
+        backButton = new JButton("Kembali");
+
+        mainPanel.add(idLabel, gbc);
+        gbc.gridy = 2;
+        gbc.insets = new Insets(15, 0, 15, 0);
+        mainPanel.add(idTextField, gbc);
+        gbc.gridy = 4;
+        mainPanel.add(passwordLabel, gbc);
+        gbc.gridy = 6;
+        gbc.insets = new Insets(15, 0, 15, 0);
+        mainPanel.add(passwordField, gbc);
+        gbc.gridy = 8;
+        gbc.insets = new Insets(15, 0, 15, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        mainPanel.add(loginButton, gbc);
+        gbc.gridy = 10;
+        mainPanel.add(backButton, gbc);
+
+        loginButton.addActionListener(e -> handleLogin());
+        backButton.addActionListener(e -> handleBack());
+
     }
 
     /**
@@ -46,6 +78,9 @@ public class LoginGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
+        MainFrame.getInstance().navigateTo("HOME");
+        idTextField.setText("");
+        passwordField.setText("");
     }
 
     /**
@@ -53,6 +88,10 @@ public class LoginGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "loginButton"
      * */
     private void handleLogin() {
-        // TODO
+        String id = idTextField.getText();
+        String password = passwordField.getText();
+        MainFrame.getInstance().login(id, password);
+        idTextField.setText("");
+        passwordField.setText("");
     }
 }

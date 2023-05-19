@@ -1,6 +1,8 @@
 package assignments.assignment4.gui.member;
 
+import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.Member;
+import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.SystemCLI;
 import assignments.assignment4.MainFrame;
 
@@ -44,7 +46,7 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
         ActionListener[] listeners = createActionListeners();
 
         if (buttons.length != listeners.length) {
-            throw new IllegalStateException("Number of buttons and listeners must be equal.");
+           // throw new IllegalStateException("Number of buttons and listeners must be equal.");
         }
 
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
@@ -88,7 +90,19 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * @return true jika ID dan password sesuai dengan instance member, false jika tidak.
      * */
     public boolean login(String id, String password) {
-        // TODO
+        Member authMember = systemCLI.authUser(id, password);
+        if (authMember != null) {
+            this.loggedInMember = authMember;
+            welcomeLabel.setText("Welcome! " + loggedInMember.getNama());
+            loggedInAsLabel.setText("Logged in as " + id);
+            if (authMember instanceof Employee) {
+                MainFrame.getInstance().navigateTo("EMPLOYEE");
+                return true;
+            } else {
+                MainFrame.getInstance().navigateTo("MEMBER");
+                return true;
+            }
+        }
         return false;
     }
 
@@ -99,6 +113,7 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
     public void logout() {
         loggedInMember = null;
     }
+
 
     /**
      * Method ini mensupply buttons apa saja yang akan dimuat oleh panel ini.

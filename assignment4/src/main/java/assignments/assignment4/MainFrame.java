@@ -1,8 +1,10 @@
 package assignments.assignment4;
 import assignments.assignment3.LoginManager;
 import assignments.assignment3.user.Employee;
+import assignments.assignment3.user.Member;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
+import assignments.assignment3.user.menu.SystemCLI;
 import assignments.assignment4.gui.HomeGUI;
 import assignments.assignment4.gui.LoginGUI;
 import assignments.assignment4.gui.RegisterGUI;
@@ -20,8 +22,8 @@ public class MainFrame extends JFrame{
     private final Loginable[] loginablePanel;
     private final MemberSystem memberSystem = new MemberSystem();
     private final EmployeeSystem employeeSystem = new EmployeeSystem();
-    private final CardLayout cards = new CardLayout();
-    private final JPanel mainPanel = new JPanel(cards);
+    private static final CardLayout cards = new CardLayout();
+    public static final JPanel mainPanel = new JPanel(cards);
     private final LoginManager loginManager = new LoginManager(employeeSystem, memberSystem);
     private final HomeGUI homeGUI = new HomeGUI();
     private final RegisterGUI registerGUI = new RegisterGUI(loginManager);
@@ -32,13 +34,8 @@ public class MainFrame extends JFrame{
 
     private MainFrame(){
         super("CuciCuciSystem");
-//        TODO: uncomment code dibawah ini setelah kamu implmentasikan addEmployee pada EmployeeSystem.
-//        // for context dari 2 employee baru ini : https://ristek.link/karyawan-baru-cucicuci
-//        employeeSystem.addEmployee(new Employee[]{
-//                new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
-//                new Employee("Regret", "FansBeratKanaArima")
-//        });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setSize(700, 432);
         setVisible(true);
         loginablePanel = new Loginable[]{
@@ -82,8 +79,8 @@ public class MainFrame extends JFrame{
      *
      * @param page -> key dari halaman yang diinginkan.
      * */
-    public void navigateTo(String page){
-        // TODO
+    public static void navigateTo(String page){
+        cards.show(mainPanel, page);
     }
 
     /**
@@ -96,11 +93,13 @@ public class MainFrame extends JFrame{
      * @param password -> password dari pengguna
      * @return boolean yang menandakan apakah login berhasil atau gagal.
      * */
-    public boolean login(String id, String password){
-        for (Loginable panel:
-                loginablePanel) {
-            // TODO
+    public boolean login(String id, String password) {
+        for (Loginable panel : loginablePanel) {
+            if (panel.login(id, password)) {
+                return true;
+            }
         }
+        JOptionPane.showMessageDialog(this, "ID atau password invalid.", "Invalid ID or Password", JOptionPane.ERROR_MESSAGE);
         return false;
     }
 

@@ -15,37 +15,24 @@ public class LoginManager {
         this.memberSystem = memberSystem;
     }
 
-    /**
-     * Method mapping from to the appropriate SystemCLI.
-     *
-     * @param id -> ID of the user who will use SystemCLI.
-     * @return SystemCLI object corresponding to ID, null if ID not found.
-     */
     public SystemCLI getSystem(String id){
-        if(memberSystem.isMemberExist(id)){
-            return memberSystem;
-        }
         if(employeeSystem.isMemberExist(id)){
             return employeeSystem;
+        }
+        if(memberSystem.isMemberExist(id)){
+            return memberSystem;
         }
         return null;
     }
 
-    /**
-     * Register a new member with the information provided.
-     *
-     * @param nama -> Member name.
-     * @param noHp -> Members mobile number.
-     * @param password -> Member account password.
-     * @return Member object that was successfully registered, returns null if it failed to register.
-     */
     public Member register(String nama, String noHp, String password) {
-        String newId = NotaGenerator.generateId(nama, noHp);
-        if (!memberSystem.isMemberExist(newId)) {
-            Member newMember = new Member(nama, newId, password);
-            memberSystem.addMember(newMember);
-            return newMember;
+        String id = NotaGenerator.generateId(nama, noHp);
+        if(memberSystem.isMemberExist(id)){
+            return null;
         }
-        return null;
+
+        Member member = new Member(nama, id, password);
+        memberSystem.addMember(member);
+        return member;
     }
 }

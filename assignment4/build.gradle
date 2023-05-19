@@ -2,14 +2,20 @@ plugins {
     id 'java'
 }
 
+group 'org.example'
+version 'unspecified'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation project(path: ':assignment1')
+    implementation project(path: ':assignment1')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation project(':assignment3')
+    //implementation poject(':assignment1')
 }
 
 application {

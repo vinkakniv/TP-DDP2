@@ -1,14 +1,16 @@
 package assignments.assignment4.gui;
 
 import assignments.assignment3.nota.NotaManager;
+import assignments.assignment3.nota.NotaManager.*;
 import assignments.assignment4.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
-import static assignments.assignment3.nota.NotaManager.toNextDay;
+import static assignments.assignment3.nota.NotaManager.*;
 
 public class HomeGUI extends JPanel {
     public static final String KEY = "HOME";
@@ -37,6 +39,32 @@ public class HomeGUI extends JPanel {
      * Be creative and have fun!
      * */
     private void initGUI() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        titleLabel = new JLabel("Selamat datang di CuciCuci System!");
+        titleLabel.setFont(new Font("Calibre", Font.BOLD, 24));
+        mainPanel.add(titleLabel, gbc);
+
+        gbc.gridy = 5;
+        gbc.insets = new Insets(32, 0, 37, 0);
+        loginButton = new JButton("Login");
+        registerButton = new JButton("Register");
+        toNextDayButton = new JButton("Next Day");
+        dateLabel = new JLabel("Hari ini: " + fmt.format(cal.getTime()));
+
+        mainPanel.add(loginButton, gbc);
+        gbc.gridy = 10;
+        mainPanel.add(registerButton, gbc);
+        gbc.gridy = 15;
+        mainPanel.add(toNextDayButton, gbc);
+        gbc.gridy = 20;
+        gbc.insets = new Insets(37, 0, 0, 0);
+        mainPanel.add(dateLabel, gbc);
+
+        registerButton.addActionListener(e -> handleToRegister());
+        loginButton.addActionListener(e -> handleToLogin());
+        toNextDayButton.addActionListener(e -> handleNextDay());
+
     }
 
     /**
@@ -44,6 +72,7 @@ public class HomeGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "registerButton"
      * */
     private static void handleToRegister() {
+        MainFrame.navigateTo("REGISTER");
     }
 
     /**
@@ -51,6 +80,7 @@ public class HomeGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "loginButton"
      * */
     private static void handleToLogin() {
+        MainFrame.navigateTo("LOGIN");
     }
 
     /**
@@ -58,5 +88,8 @@ public class HomeGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "toNextDayButton"
      * */
     private void handleNextDay() {
+        NotaManager.toNextDay();
+        dateLabel.setText("Hari ini: " + fmt.format(cal.getTime()));
+        JOptionPane.showMessageDialog(this, "Kamu tidur hari ini...zzz...", "Sleep well..", JOptionPane.INFORMATION_MESSAGE);
     }
 }

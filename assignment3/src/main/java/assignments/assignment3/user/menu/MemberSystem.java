@@ -1,83 +1,71 @@
 package assignments.assignment3.user.menu;
-import assignments.assignment3.user.Member;
-import assignments.assignment3.nota.Nota;
-import assignments.assignment1.NotaGenerator;
-import assignments.assignment3.nota.service.AntarService;
-import assignments.assignment3.nota.service.LaundryService;
-import assignments.assignment3.nota.service.SetrikaService;
 
+import assignments.assignment3.nota.Nota;
+import assignments.assignment3.nota.NotaManager;
+import assignments.assignment3.nota.service.AntarService;
+import assignments.assignment3.nota.service.SetrikaService;
+import assignments.assignment3.user.Member;
+import static assignments.assignment1.NotaGenerator.*;
 import static assignments.assignment3.nota.NotaManager.cal;
 import static assignments.assignment3.nota.NotaManager.fmt;
 
 public class MemberSystem extends SystemCLI {
-    /**
-     * Process user's choice according to the specific menu.
-     *
-     * @param choice -> user's choice
-     * @return true if user logs out.
-     */
+
+
     @Override
     protected boolean processChoice(int choice) {
-        switch (choice) {
-            case 1:
-                // Generate a new laundry nota and add it to the current user's nota list.
-                String paket = NotaGenerator.getPaket();
-                int berat = NotaGenerator.getBerat();
-                String tanggal = fmt.format(cal.getTime());
-                Nota nota = new Nota(loginMember, berat, paket, tanggal);
-                loginMember.addNota(nota);
-                // Ask user if they want to add any extra services.
-                setrikaCucian(nota);
-                antarCucian(nota);
-                System.out.println("Nota berhasil dibuat!\n");
-                break;
-            case 2:
-                // Display the details of the user's laundry nota.
-                Nota[] daftarNota = loginMember.getNotaList();
-                if (daftarNota.length > 0) {
-                    for (Nota memo : daftarNota) {
-                        System.out.println(memo);
-                    }
-                } 
-                break;
-            case 3:
-                return true;
+        boolean logout = false;
+        switch (choice){
+            case 1 -> createNota();
+            case 2 -> showDetailNota();
+            case 3 -> logout = true;
+            default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
         }
-        return false;
+        return logout;
     }
 
+    private void showDetailNota() {
+        for (Nota nota:
+             loginMember.getNotaList()) {
+            System.out.println(nota.toString() + "\n");
+        }
+    }
 
-    /**
-     * Ask user if they want to add ironing service to their laundry.
-     * 
-     * @param nota -> the current laundry invoice.
-     */
-    public void setrikaCucian(Nota nota) {
-        System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami? Hanya tambah 1000 / kg :0");
+    private void createNota() {
+        var paket = "";
+        System.out.println("Masukan paket laundry: ");
+        showPaket();
+        paket = in.nextLine();
+        System.out.println("Masukan berat cucian anda [Kg]: ");
+        var beratS = in.nextLine();
+        var berat = Integer.parseInt(beratS);
+
+        if (berat < 2) {
+            System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
+            berat = 2;
+        }
+
+        Nota nota = new Nota(loginMember, berat, paket, fmt.format(cal.getTime()));
+
+        System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?");
+        System.out.println("Hanya tambah 1000 / kg :0");
         System.out.print("[Ketik x untuk tidak mau]: ");
-        if (!in.nextLine().equals("x")) {
-            LaundryService setrikaService = new SetrikaService();
-            nota.addService(setrikaService);
+        if(!in.nextLine().equalsIgnoreCase("x")){
+            nota.addService(new SetrikaService());
         }
-    }
-
-    /**
-     * Ask user if they want to add delivery service to their laundry.
-     * 
-     * @param nota -> the current laundry nota.
-     */
-    public void antarCucian(Nota nota) {
-        System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan! Cuma 2000 / 4kg, kemudian 500 / kg");
+        System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!");
+        System.out.println("Cuma 2000 / 4kg, kemudian 500 / kg");
         System.out.print("[Ketik x untuk tidak mau]: ");
-        if (!in.nextLine().equals("x")) {
-            LaundryService antarService = new AntarService();
-            nota.addService(antarService);
+        if(!in.nextLine().equalsIgnoreCase("x")){
+            nota.addService(new AntarService());
         }
+
+        NotaManager.addNota(nota);
+        loginMember.addNota(nota);
+
+        System.out.println("Nota berhasil dibuat!");
     }
 
-    /**
-     * Displays specific menu for regular Members.
-     */
     @Override
     protected void displaySpecificMenu() {
         System.out.println("1. Saya ingin laundry");
@@ -85,15 +73,12 @@ public class MemberSystem extends SystemCLI {
         System.out.println("3. Logout");
     }
 
-    /**
-     * Adding a new Member to the system.
-     *
-     * @param member -> Adding a new Member to the system.
-     */
     public void addMember(Member member) {
-        Member[] newMemberList = new Member[memberList.length + 1];
-        System.arraycopy(memberList, 0, newMemberList, 0, memberList.length);
-        newMemberList[memberList.length] = member;
-        memberList = newMemberList;
+        int n = memberList.length;
+        Member[] newarr = new Member[n + 1];
+        System.arraycopy(memberList, 0, newarr, 0, n);
+
+        newarr[n] = member;
+        memberList = newarr;
     }
 }

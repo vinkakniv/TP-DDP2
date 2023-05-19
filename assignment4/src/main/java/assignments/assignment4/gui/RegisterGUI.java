@@ -1,13 +1,18 @@
 package assignments.assignment4.gui;
 
+import assignments.assignment1.NotaGenerator;
 import assignments.assignment3.LoginManager;
 import assignments.assignment3.user.Member;
 import assignments.assignment4.MainFrame;
+import static assignments.assignment1.NotaGenerator.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static assignments.assignment3.nota.NotaManager.cal;
+import static assignments.assignment3.nota.NotaManager.fmt;
 
 public class RegisterGUI extends JPanel {
     public static final String KEY = "REGISTER";
@@ -23,10 +28,10 @@ public class RegisterGUI extends JPanel {
     private JButton backButton;
 
     public RegisterGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Setup layout
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -35,13 +40,49 @@ public class RegisterGUI extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    // Method untuk menginisialisasi REGISTER GUI.
     private void initGUI() {
-        // TODO
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.weightx = 20;
+        gbc.weighty = 2;
+
+        nameLabel = new JLabel("Masukkan nama Anda:");
+        phoneLabel = new JLabel("Masukkan nomor handphone Anda:");
+        passwordLabel = new JLabel("Masukkan password Anda");
+
+        nameTextField = new JTextField(10);
+        phoneTextField = new JTextField(10);
+        passwordField = new JPasswordField();
+
+        registerButton = new JButton("Register");
+        backButton = new JButton("Kembali");
+
+        mainPanel.add(nameLabel, gbc);
+        gbc.gridy = 2;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        mainPanel.add(nameTextField, gbc);
+        gbc.gridy = 4;
+        mainPanel.add(phoneLabel, gbc);
+        gbc.gridy = 6;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        mainPanel.add(phoneTextField, gbc);
+        gbc.gridy = 8;
+        mainPanel.add(passwordLabel, gbc);
+        gbc.gridy = 10;
+        gbc.insets = new Insets(10, 0, 15, 0);
+        mainPanel.add(passwordField, gbc);
+        gbc.gridy = 12;
+        gbc.insets = new Insets(15, 0, 15, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        mainPanel.add(registerButton, gbc);
+        gbc.gridy = 14;
+        mainPanel.add(backButton, gbc);
+        registerButton.addActionListener(e -> handleRegister());
+        backButton.addActionListener(e -> handleBack());
     }
 
     /**
@@ -49,6 +90,11 @@ public class RegisterGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
+        nameTextField.setText("");
+        phoneTextField.setText("");
+        passwordField.setText("");
+        MainFrame.navigateTo("HOME");
+
     }
 
     /**
@@ -56,6 +102,31 @@ public class RegisterGUI extends JPanel {
     * Akan dipanggil jika pengguna menekan "registerButton"
     * */
     private void handleRegister() {
-        // TODO
+        if (phoneTextField.getText().equals("") || nameTextField.getText().equals("") || passwordField.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Semua field diatas wajib diisi", "Empty field", JOptionPane.ERROR_MESSAGE);
+        }
+        if (!NotaGenerator.isNumeric(phoneTextField.getText())) {
+            JOptionPane.showMessageDialog(this, "Nomor handphone harus berisi angka!", "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+            phoneTextField.setText("");
+        }
+        else {
+            String name = nameTextField.getText();
+            String phoneNo = phoneTextField.getText();
+            String password = passwordField.getText();
+            Member registeredMember = loginManager.register(name, phoneNo ,password);
+            if(registeredMember == null){
+                JOptionPane.showMessageDialog(this, String.format("User dengan nama %s dan nomor hp %s sudah ada!", name, phoneNo), "Registration Failed", JOptionPane.ERROR_MESSAGE);
+                MainFrame.getInstance().navigateTo("HOME");
+                nameTextField.setText("");
+                phoneTextField.setText("");
+                passwordField.setText("");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, String.format("Berhasil membuat user dengan ID %s", NotaGenerator.generateId(name, phoneNo)), "Registration Succesful", JOptionPane.INFORMATION_MESSAGE);
+            MainFrame.getInstance().navigateTo("HOME");
+            nameTextField.setText("");
+            phoneTextField.setText("");
+            passwordField.setText("");
+        }
     }
 }

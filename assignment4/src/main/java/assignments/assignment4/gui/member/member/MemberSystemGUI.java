@@ -1,5 +1,6 @@
 package assignments.assignment4.gui.member.member;
 
+import assignments.assignment1.NotaGenerator;
 import assignments.assignment3.nota.Nota;
 import assignments.assignment3.user.Member;
 import assignments.assignment3.user.menu.SystemCLI;
@@ -10,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static assignments.assignment3.nota.NotaManager.cal;
+import static assignments.assignment3.nota.NotaManager.fmt;
+
 public class MemberSystemGUI extends AbstractMemberGUI {
     public static final String KEY = "MEMBER";
 
@@ -19,7 +23,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
 
     @Override
     public String getPageName(){
-        return KEY;
+        return "MEMBER";
     }
 
     public Member getLoggedInMember(){
@@ -34,8 +38,9 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
         return new JButton[]{
+                new JButton("Saya ingin laundry"),
+                new JButton("Lihat detail nota saya"),
         };
     }
 
@@ -58,7 +63,19 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void showDetailNota() {
-        // TODO
+        String notaStr = "";
+        if (loggedInMember.getNotaList().length == 0) {
+            notaStr += "Belum pernah laundry di CuciCuci, hiks:'( ";
+        }
+        for (Nota nota: loggedInMember.getNotaList()) {
+                notaStr += nota.toString() + "\n";
+        }
+        JTextArea textArea = new JTextArea(25, 30);
+        textArea.setEditable(false);
+        textArea.setText(notaStr);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JOptionPane.showMessageDialog(this, scrollPane, "Detail Nota", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -66,7 +83,8 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void createNota() {
-        // TODO
+        MainFrame.getInstance().navigateTo("CREATE_NOTA");
     }
+
 
 }
