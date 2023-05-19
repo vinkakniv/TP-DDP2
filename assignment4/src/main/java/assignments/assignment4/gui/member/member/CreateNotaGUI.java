@@ -40,19 +40,13 @@ public class CreateNotaGUI extends JPanel {
         this.cal = NotaManager.cal;
         String[] daftarPaket = {"Express", "Fast", "Reguler"};
         paketComboBox = new JComboBox<>(daftarPaket);
-
-
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel.
         initGUI();
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    // Method untuk menginisialisasi CreateNota GUI.
     private void initGUI() {
-        // TODO
+        // Mengatur tiap komponen GUI pada main panel.
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -85,7 +79,6 @@ public class CreateNotaGUI extends JPanel {
 
         gbc.gridy = 2;
         gbc.gridx = 1;
-
 
         setrikaCheckBox = new JCheckBox("Tambah Setrika Service (1000/kg)");
         add(setrikaCheckBox, gbc);
@@ -136,6 +129,7 @@ public class CreateNotaGUI extends JPanel {
      * */
     private void createNota() {
         String beratInput = beratTextField.getText();
+        // Iterasi selamat input berat tidak valid.
         while (!NotaGenerator.isNumeric(beratInput) || Integer.parseInt(beratInput) < 1 || beratInput == null) {
             JOptionPane.showMessageDialog(this, "Berat cucian harus berisi angka", "Error", JOptionPane.ERROR_MESSAGE);
             beratTextField.setText("");
@@ -147,11 +141,14 @@ public class CreateNotaGUI extends JPanel {
             berat = 2;
         }
         String paket = (String) paketComboBox.getSelectedItem();
+        // Membuat nota.
         Nota nota = new Nota(memberSystemGUI.getLoggedInMember(), berat, paket, fmt.format(cal.getTime()));
+        // Menambahkan service dan menambahkan nota pada daftar nota.
         if (setrikaCheckBox.isSelected()) nota.addService(new SetrikaService());
         if (antarCheckBox.isSelected()) nota.addService(new AntarService());
         NotaManager.addNota(nota);
         memberSystemGUI.getLoggedInMember().addNota(nota);
+        // Menampilkan information massage berhasil dan set komponen menjadi default.
         JOptionPane.showMessageDialog(this,"Nota berhasil dibuat!", "Success", JOptionPane.INFORMATION_MESSAGE);
         beratTextField.setText("");
         setrikaCheckBox.setSelected(false);
@@ -164,8 +161,8 @@ public class CreateNotaGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
-        // TODO
         MainFrame.getInstance().navigateTo("MEMBER");
+        // Set komponen kembali default.
         beratTextField.setText("");
         setrikaCheckBox.setSelected(false);
         antarCheckBox.setSelected(false);

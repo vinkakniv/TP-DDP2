@@ -22,9 +22,9 @@ public class HomeGUI extends JPanel {
     private JButton toNextDayButton;
 
     public HomeGUI(){
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Setup layout.
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel.
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -33,25 +33,23 @@ public class HomeGUI extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    // Method untuk menginisialisasi HOME GUI.
     private void initGUI() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+
+        // Menginisiasi komponen HOME GUI.
         titleLabel = new JLabel("Selamat datang di CuciCuci System!");
         titleLabel.setFont(new Font("Calibre", Font.BOLD, 24));
-        mainPanel.add(titleLabel, gbc);
-
-        gbc.gridy = 5;
-        gbc.insets = new Insets(32, 0, 37, 0);
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
         toNextDayButton = new JButton("Next Day");
         dateLabel = new JLabel("Hari ini: " + fmt.format(cal.getTime()));
 
+        // Mengatur grid tampilan GUI.
+        gbc.gridx = 0;
+        mainPanel.add(titleLabel, gbc);
+        gbc.gridy = 5;
+        gbc.insets = new Insets(32, 0, 37, 0);
         mainPanel.add(loginButton, gbc);
         gbc.gridy = 10;
         mainPanel.add(registerButton, gbc);
@@ -61,10 +59,10 @@ public class HomeGUI extends JPanel {
         gbc.insets = new Insets(37, 0, 0, 0);
         mainPanel.add(dateLabel, gbc);
 
+        // Menambahkan action listener untuk tiap komponen.
         registerButton.addActionListener(e -> handleToRegister());
         loginButton.addActionListener(e -> handleToLogin());
         toNextDayButton.addActionListener(e -> handleNextDay());
-
     }
 
     /**
@@ -88,7 +86,9 @@ public class HomeGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "toNextDayButton"
      * */
     private void handleNextDay() {
+        // Menambahkan hari untuk semua daftar nota.
         NotaManager.toNextDay();
+        // Menampilkan pesan skip hari.
         dateLabel.setText("Hari ini: " + fmt.format(cal.getTime()));
         JOptionPane.showMessageDialog(this, "Kamu tidur hari ini...zzz...", "Sleep well..", JOptionPane.INFORMATION_MESSAGE);
     }

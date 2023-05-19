@@ -20,16 +20,16 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
     public AbstractMemberGUI(SystemCLI systemCLI) {
         super(new BorderLayout());
         this.systemCLI = systemCLI;
-        // Set up welcome label
+        // Set up welcome label.
         welcomeLabel = new JLabel("", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(welcomeLabel, BorderLayout.NORTH);
 
-        // Set up footer
+        // Set up footer.
         loggedInAsLabel = new JLabel("", SwingConstants.CENTER);
         add(loggedInAsLabel, BorderLayout.SOUTH);
 
-        // Initialize buttons
+        // Initialize buttons.
         JPanel buttonsPanel = initializeButtons();
         add(buttonsPanel, BorderLayout.CENTER);
     }
@@ -37,7 +37,6 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
     /**
      * Membuat panel button yang akan ditampilkan pada Panel ini.
      * Buttons dan ActionListeners akan disupply oleh method createButtons() & createActionListeners() respectively.
-     * <p> Feel free to make any changes. Be creative and have fun!
      *
      * @return JPanel yang di dalamnya berisi Buttons.
      * */
@@ -46,7 +45,7 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
         ActionListener[] listeners = createActionListeners();
 
         if (buttons.length != listeners.length) {
-           // throw new IllegalStateException("Number of buttons and listeners must be equal.");
+           throw new IllegalStateException("Number of buttons and listeners must be equal.");
         }
 
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
@@ -90,15 +89,19 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * @return true jika ID dan password sesuai dengan instance member, false jika tidak.
      * */
     public boolean login(String id, String password) {
+        // Autentikasi member berdasarkan id dan password.
         Member authMember = systemCLI.authUser(id, password);
         if (authMember != null) {
+            // Mengupdate loggedInMember dan label.
             this.loggedInMember = authMember;
             welcomeLabel.setText("Welcome! " + loggedInMember.getNama());
             loggedInAsLabel.setText("Logged in as " + id);
             if (authMember instanceof Employee) {
+                // Employee login.
                 MainFrame.getInstance().navigateTo("EMPLOYEE");
                 return true;
             } else {
+                // Member login.
                 MainFrame.getInstance().navigateTo("MEMBER");
                 return true;
             }

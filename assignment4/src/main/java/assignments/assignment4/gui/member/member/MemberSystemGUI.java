@@ -64,12 +64,15 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     private void showDetailNota() {
         String notaStr = "";
+        // Nota kosong.
         if (loggedInMember.getNotaList().length == 0) {
             notaStr += "Belum pernah laundry di CuciCuci, hiks:'( ";
         }
+        // Iterasi daftar nota untuk ditampilkan.
         for (Nota nota: loggedInMember.getNotaList()) {
                 notaStr += nota.toString() + "\n";
         }
+        // Menampilkan nota milik loggedInMember pada massage dialog dengan scrollpane.
         JTextArea textArea = new JTextArea(25, 30);
         textArea.setEditable(false);
         textArea.setText(notaStr);

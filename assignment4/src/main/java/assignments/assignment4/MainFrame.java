@@ -47,11 +47,7 @@ public class MainFrame extends JFrame{
         add(mainPanel);
     }
 
-    /**
-     * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+    // Method untuk menginisialisasi GUI.
     private void initGUI() {
         mainPanel.add(homeGUI, HomeGUI.KEY);
         mainPanel.add(registerGUI, RegisterGUI.KEY);
@@ -85,41 +81,34 @@ public class MainFrame extends JFrame{
 
     /**
      * Method untuk login pada sistem.
-     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login: <p>
-     * - return boolean true <p>
-     * - menampilkan halaman yang sesuai <p>
+     * Jika gagal login akan menampilkan failed massage dialog dan jika berhasil login: <p>
+     * - menampilkan halaman yang sesuai  <p>
      *
      * @param id -> ID dari pengguna
      * @param password -> password dari pengguna
-     * @return boolean yang menandakan apakah login berhasil atau gagal.
      * */
-    public boolean login(String id, String password) {
+    public void login(String id, String password) {
         for (Loginable panel : loginablePanel) {
-            if (panel.login(id, password)) {
-                return true;
+            if (!panel.login(id, password)) {
+                JOptionPane.showMessageDialog(this, "ID atau password invalid.", "Invalid ID or Password", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
-        JOptionPane.showMessageDialog(this, "ID atau password invalid.", "Invalid ID or Password", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
+       }
 
 
     /**
      * Method untuk logout dari sistem, kemudian menampilkan halaman Home.
      * */
     public void logout(){
-        for (Loginable panel:
-                loginablePanel) {
+        for (Loginable panel: loginablePanel) {
             panel.logout();
         }
         navigateTo(HomeGUI.KEY);
     }
 
     public static void main(String[] args) {
-        // menampilkan GUI kalian.
-        // Jika ingin tau lebih lanjut mengapa menggunakan SwingUtilities.invokeLater
-        // silakan akses https://stackoverflow.com/questions/6567870/what-does-swingutilities-invokelater-do
-        // Tapi in general kalian tidak usah terlalu overthinking line ini selain fungsi utamanya adalah menampilkan GUI
+        // Menampilkan GUI.
         SwingUtilities.invokeLater(MainFrame::getInstance);
     }
 }

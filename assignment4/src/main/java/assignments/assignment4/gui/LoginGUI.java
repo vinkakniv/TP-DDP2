@@ -34,6 +34,15 @@ public class LoginGUI extends JPanel {
 
     // Method untuk menginisialisasi LOGIN GUI.
     private void initGUI() {
+        // Menginisiasi komponen LOGIN GUI.
+        idLabel = new JLabel("Masukkan ID Anda:");
+        passwordLabel = new JLabel("Masukkan password Anda:");
+        idTextField  = new JTextField(10);
+        passwordField = new JPasswordField(10);
+        loginButton = new JButton("Login");
+        backButton = new JButton("Kembali");
+
+        // Mengatur grid dan menambahkan komponen GUI pada main panel.
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -41,16 +50,6 @@ public class LoginGUI extends JPanel {
         gbc.weightx = 20;
         gbc.weighty = 2;
         gbc.insets = new Insets(15, 0, 15, 0);
-
-        idLabel = new JLabel("Masukkan ID Anda:");
-        passwordLabel = new JLabel("Masukkan password Anda:");
-
-        idTextField  = new JTextField(10);
-        passwordField = new JPasswordField(10);
-
-        loginButton = new JButton("Login");
-        backButton = new JButton("Kembali");
-
         mainPanel.add(idLabel, gbc);
         gbc.gridy = 2;
         gbc.insets = new Insets(15, 0, 15, 0);
@@ -68,6 +67,7 @@ public class LoginGUI extends JPanel {
         gbc.gridy = 10;
         mainPanel.add(backButton, gbc);
 
+        // Menambahkan action listener pada button.
         loginButton.addActionListener(e -> handleLogin());
         backButton.addActionListener(e -> handleBack());
 
@@ -79,6 +79,7 @@ public class LoginGUI extends JPanel {
      * */
     private void handleBack() {
         MainFrame.getInstance().navigateTo("HOME");
+        // Set text field kosong.
         idTextField.setText("");
         passwordField.setText("");
     }
@@ -91,6 +92,7 @@ public class LoginGUI extends JPanel {
         String id = idTextField.getText();
         String password = passwordField.getText();
         MainFrame.getInstance().login(id, password);
+        // Set text field kosong.
         idTextField.setText("");
         passwordField.setText("");
     }

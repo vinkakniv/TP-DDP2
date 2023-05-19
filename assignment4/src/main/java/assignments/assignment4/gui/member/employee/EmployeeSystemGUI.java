@@ -60,7 +60,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void displayNota() {
-        // TODO
+        // Daftar nota kosong.
         if (notaList.length == 0) {
             JOptionPane.showMessageDialog(this,"Belum ada nota", "List Nota", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -77,13 +77,14 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void cuci() {
-        // TODO
-        //System.out.printf("Stand back! %s beginning to nyuci!\n", loginMember.getNama());
+        // Employee memulai untuk cuci.
         JOptionPane.showMessageDialog(this,String.format("Stand back! %s beginning to nyuci!", loggedInMember.getNama()), "Nyuci Time", JOptionPane.INFORMATION_MESSAGE);
+        // Daftar cucian kosong.
         if (notaList.length == 0) {
             JOptionPane.showMessageDialog(this,"nothing to cuci here", "Nyuci result", JOptionPane.ERROR_MESSAGE);
         } else {
             String notaCuci = "";
+            // Iterasi daftar nota untuk dikerjakan dan menampilkan hasilnya pada information massage.
             for (Nota nota: notaList) {
                 notaCuci += nota.kerjakan() + "\n";
             }
